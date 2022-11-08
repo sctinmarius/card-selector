@@ -1,4 +1,7 @@
-import { useContext, useState, useMemo } from "react";
+import { useCallback, useContext, useState } from "react";
+import getSelectedItems from "../helpers/getSelectedItems";
+import getUnselectedItems from "../helpers/getUnselectedItems";
+import getUpdatedItems from "../helpers/getUpdatedItems";
 import ItemContext from "./ItemContext";
 
 const ItemProvider = ({ children }) => {
@@ -6,54 +9,51 @@ const ItemProvider = ({ children }) => {
   const [items, setItems] = useState(data);
   const [movedItems, setMovedItems] = useState([]);
 
-  const setSelectItem = (indexItem) => {
-    const updatedItems = items.reduce((acc, currItem, index) => {
-      if (index === indexItem) {
-        return [...acc, { ...currItem, selected: !currItem.selected }];
-      }
-      return [...acc, { ...currItem }];
-    }, []);
+  const setSelectItem = useCallback(
+    (indexItem) => {
+      const updatedItems = getUpdatedItems(items, indexItem);
+      setItems(updatedItems);
+    },
+    [items]
+  );
 
-    setItems(updatedItems);
-  };
+  const updateMovedItemsWithSelectedItems = useCallback(() => {
+    const selectedItems = getSelectedItems(items);
+    setMovedItems((prevItems) => [...selectedItems, ...prevItems]);
+  }, [items]);
 
-  const updatedWithSelectedItems = (selectedItems) => {
-    setItems((prevItems) => [...selectedItems, ...prevItems]);
-  };
-
-  const updateItems = () => {
-    const filteredByUnselectedItems = items.filter((item) => item.selected !== true);
+  const updateItems = useCallback(() => {
+    const filteredByUnselectedItems = getUnselectedItems(items);
     setItems(filteredByUnselectedItems);
-  };
+  }, [items]);
 
-  const setSelectMovedItem = (indexItem) => {
-    const updatedMovedItems = movedItems.reduce((acc, currItem, index) => {
-      if (index === indexItem) {
-        return [...acc, { ...currItem, selected: !currItem.selected }];
-      }
-      return [...acc, { ...currItem }];
-    }, []);
-    setMovedItems(updatedMovedItems);
-  };
+  const setSelectMovedItem = useCallback(
+    (indexItem) => {
+      const updatedItems = getUpdatedItems(movedItems, indexItem);
+      setMovedItems(updatedItems);
+    },
+    [movedItems]
+  );
 
-  const updateMovedWithSelectedItems = (selectedItems) => {
-    setMovedItems((prevMovedItems) => [...selectedItems, ...prevMovedItems]);
-  };
+  const updateItemsWithSelectedMovedItems = useCallback(() => {
+    const selectedItems = getSelectedItems(movedItems);
+    setItems((prevMovedItems) => [...selectedItems, ...prevMovedItems]);
+  }, [movedItems]);
 
-  const updateMovedItems = () => {
-    const filteredByUnselectedItems = movedItems.filter((item) => item.selected !== true);
+  const updateMovedItems = useCallback(() => {
+    const filteredByUnselectedItems = getUnselectedItems(movedItems);
     setMovedItems(filteredByUnselectedItems);
-  };
+  }, [movedItems]);
 
   const itemContext = {
     items,
     setSelectItem,
-    updatedWithSelectedItems,
+    updateMovedItemsWithSelectedItems,
     updateItems,
 
     movedItems,
     setSelectMovedItem,
-    updateMovedWithSelectedItems,
+    updateItemsWithSelectedMovedItems,
     updateMovedItems,
   };
 

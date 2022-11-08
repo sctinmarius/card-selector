@@ -3,37 +3,33 @@ import ItemContext from "../store/ItemContext";
 import Header from "./Header";
 import Item from "./Item";
 
-const MovedItems = () => {
-  const {
-    movedItems,
-    setSelectMovedItem,
-    updateItemsWithSelectedMovedItems,
-    updateMovedItems,
-  } = useContext(ItemContext);
+const Items = () => {
+  const { items, setSelectItem, updateItems, updateMovedItemsWithSelectedItems } =
+    useContext(ItemContext);
 
   const onMoveSelectedItems = useCallback(() => {
-    updateItemsWithSelectedMovedItems();
-    updateMovedItems();
-  }, [updateItemsWithSelectedMovedItems, updateMovedItems]);
+    updateMovedItemsWithSelectedItems();
+    updateItems();
+  }, [updateMovedItemsWithSelectedItems, updateItems]);
 
   const onUpdateItem = useCallback(
-    (indexItem) => () => setSelectMovedItem(indexItem),
-    [setSelectMovedItem]
+    (indexItem) => () => setSelectItem(indexItem),
+    [setSelectItem]
   );
 
   const props = useMemo(
     () => ({
-      title: `Moved items: ${movedItems.length}`,
-      nameButton: "Move back selected items",
+      title: `Items: ${items.length}`,
+      nameButton: "Move selected items",
     }),
-    [movedItems]
+    [items]
   );
 
   return (
     <Fragment>
-      <Header {...props} onClickButton={onMoveSelectedItems} />
+      <Header onClickButton={onMoveSelectedItems} {...props} />
       <ul className="List">
-        {movedItems.map((item, indexItem) => {
+        {items.map((item, indexItem) => {
           let selected = "";
           if (item.selected) {
             selected = "List__item--selected";
@@ -52,4 +48,4 @@ const MovedItems = () => {
   );
 };
 
-export default memo(MovedItems);
+export default memo(Items);

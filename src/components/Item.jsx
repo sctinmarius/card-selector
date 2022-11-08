@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { Fragment, memo } from "react";
 
 const Item = ({ name, className, onClick }) => {
   return (
@@ -10,4 +10,4 @@ const Item = ({ name, className, onClick }) => {
   );
 };
 
-export default Item;
+export default memo(Item);

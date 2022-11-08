@@ -1,7 +1,6 @@
 import { memo } from "react";
 
-const Header = memo(({ title, nameButton, onClickButton }) => {
-  console.log("Header");
+const Header = ({ title, nameButton, onClickButton }) => {
   return (
     <div className="Header">
       <div className="Header__item">
@@ -14,6 +13,6 @@ const Header = memo(({ title, nameButton, onClickButton }) => {
       )}
     </div>
   );
-});
+};
 
-export default Header;
+export default memo(Header);

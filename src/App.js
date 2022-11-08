@@ -1,16 +1,16 @@
-import ListItems from "./components/ListItems";
+import { memo } from "react";
+import Items from "./components/Items";
 import MovedItems from "./components/MovedItems";
 import ItemProvider from "./store/ItemProvider";
 
 function App() {
   return (
     <ItemProvider>
-      {/* <MovedItems /> */}
+      <MovedItems />
       <hr />
-
-      <ListItems />
+      <Items />
     </ItemProvider>
   );
 }
 
-export default App;
+export default memo(App);
