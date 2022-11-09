@@ -36,7 +36,7 @@ const Items = () => {
           }
           return (
             <Item
-              key={item.name}
+              key={`${item.name}-${indexItem}`}
               name={item.name}
               className={`List__item List__item--${item.color} ${selected}`}
               onClick={onUpdateItem(indexItem)}
@@ -44,6 +44,7 @@ const Items = () => {
           );
         })}
       </ul>
+      <Header onClickButton={onMoveSelectedItems} {...props} />
     </Fragment>
   );
 };

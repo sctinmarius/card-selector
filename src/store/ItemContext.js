@@ -1,4 +1,3 @@
 import { createContext } from "react";
-import { getItems } from "../helpers/getItems";
-const ItemContext = createContext(getItems());
+const ItemContext = createContext({});
 export default ItemContext;

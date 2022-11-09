@@ -1,12 +1,12 @@
-import { useCallback, useContext, useState } from "react";
+import { useCallback, useState } from "react";
+import { getItems } from "../helpers/getItems";
 import getSelectedItems from "../helpers/getSelectedItems";
 import getUnselectedItems from "../helpers/getUnselectedItems";
 import getUpdatedItems from "../helpers/getUpdatedItems";
 import ItemContext from "./ItemContext";
 
 const ItemProvider = ({ children }) => {
-  const data = useContext(ItemContext);
-  const [items, setItems] = useState(data);
+  const [items, setItems] = useState(getItems().items);
   const [movedItems, setMovedItems] = useState([]);
 
   const setSelectItem = useCallback(
@@ -52,9 +52,12 @@ const ItemProvider = ({ children }) => {
     updateItems,
 
     movedItems,
+    setMovedItems,
     setSelectMovedItem,
     updateItemsWithSelectedMovedItems,
     updateMovedItems,
+
+    setItems,
   };
 
   return (

@@ -1,4 +1,4 @@
-# Requirements:
+# Card-Selector requirements:
 
 1. Clicking an item selects/unselects it.
 2. Multiple items can be selected at a time.
@@ -7,3 +7,7 @@
 5. Currently selected items' names should be shown at the top of the page.
 
 - Feel free to change the component structure at will.
+
+# The outcome
+
+![Demo](Demo1.gif)

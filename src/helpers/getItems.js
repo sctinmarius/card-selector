@@ -1,4 +1,5 @@
-export function getItems() {
+export function getItems(page = 1) {
+  if (typeof page !== "number" || page < 1) throw new Error("Invalid page!");
   const sizes = ["tiny", "small", "medium", "large", "huge"];
   const colors = [
     "navy",
@@ -54,5 +55,22 @@ export function getItems() {
     []
   );
 
-  return items;
+  const rowsPerPage = 60;
+  const totalPages = Math.ceil(items.length / rowsPerPage);
+  let startRows = 0;
+  let endRows = 0;
+  let slicedItems;
+  const isGreaterThanLastPage = page > totalPages;
+
+  if (isGreaterThanLastPage) {
+    page = totalPages;
+  }
+
+  endRows = page * rowsPerPage;
+  slicedItems = items.slice(startRows, endRows);
+
+  return {
+    items: slicedItems,
+    totalPages,
+  };
 }
